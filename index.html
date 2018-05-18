@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Myapp</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- Blockly --> <!--robe di blockly-->
+    <script type="text/javascript" src="blockly/blockly_uncompressed.js"></script>
+    <script type="text/javascript" src="blockly/blocks_compressed.js"></script>
+    <script type="text/javascript" src="blockly/python_compressed.js"></script>
+    <script type="text/javascript" src="blockly/pseudo_compressed.js"></script>
+    <script type="text/javascript" src="blockly/javascript_compressed.js"></script>
+    <script type="text/javascript" src="blockly/msg/js/en.js"></script>
+    
+    <!-- Skulpt --> <!--implementazione javascript di python-->
+    <script type="text/javascript" src="skulpt/dist/skulpt.min.js"></script>
+    <script type="text/javascript" src="skulpt/dist/skulpt-stdlib.js"></script>
+    
+    <!-- Source Code -->
+
+    <script type="text/javascript" src="src/python_errors.js"></script>
+    <script type="text/javascript" src="src/python_to_blockly.js"></script>
+    <script type="text/javascript" src="src/imported.js"></script>
+
+    <script type="text/javascript" src="src/blockly_blocks/class.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/comment.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/comprehensions.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/dict.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/if.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/io.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/lists.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/sets.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/loops.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/parking.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/tuple.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/turtles.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/text.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/plots.js"></script>
+    
+    <script type="text/javascript" src="src/editor.js"></script>
+
+</head>
+<body>
+
+<div style='padding-bottom: 10px; border: 1px solid #faebcc'>
+    <div style='height:100%'>
+        <div class='blockly-div' style='height:450px; width: 100%'></div>
+    </div>
+    <div class='blockpy-text' style='height: 450px '>
+        <textarea class='codemirror-div' style='height:100%; width: 100%'></textarea>
+    </div>
+</div>
+
+
+<script>
+    var editor = new BlockPyEditor(); 
+</script>
+
+</body>
+</html>
