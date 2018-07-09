@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Myapp</title>
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
     <!-- Blockly --> <!--robe di blockly-->
@@ -17,6 +17,11 @@
     <!-- Skulpt --> <!--implementazione javascript di python-->
     <script type="text/javascript" src="skulpt/dist/skulpt.min.js"></script>
     <script type="text/javascript" src="skulpt/dist/skulpt-stdlib.js"></script>
+    <!--DEVO IMPORTARE SKULPT PERCHE' FA IL PARSER DEL CODICE PYTHON E PERMETTE LA CONVERSIONE IN XML. SENZA SKULPT SONO TUTTI RAW_BLOCK
+    VEDI RIGA 486 editor.js. CONVERT SOURCE E' UN METODO DI PythonToBlock E QUEL METODO RICHIAMA Sk.parse(.., ..)
+    In env Sk, in type Sk.builtin
+
+    MODIFICATO ENV E TYPE!!!!! SPOSTARE LA DICHIARAZIONE DI Sk.builtin-->
     
     <!-- Source Code -->
 
@@ -38,12 +43,18 @@
     <script type="text/javascript" src="src/blockly_blocks/turtles.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/text.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/plots.js"></script>
-    
+    <!--AGGIUNTO DA ME-->
+    <!--config_params.html dovrebbe aggiungere i comandi del coderbot ma non riesco a inserirlo-->
+    <script type="text/javascript" src="src/blockly_blocks/myBlocks/blocks.js"></script>
+    <!--<script type="text/javascript" src="src/blockly_blocks/aggiunti/blocks_compressed.js"></script>-->
+    <script type="text/javascript" src="src/blockly_blocks/myBlocks/bot_en.js"></script>
+    <!--<script type="text/javascript" src="src/blockly_blocks/myBlocks/bot_fr.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/myBlocks/en.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/myBlocks/fr.js"></script>-->
     <script type="text/javascript" src="src/editor.js"></script>
 
 </head>
 <body>
-
 <div style='padding-bottom: 10px; border: 1px solid #faebcc'>
     <div style='height:100%'>
         <div class='blockly-div' style='height:450px; width: 100%'></div>

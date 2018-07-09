@@ -30,6 +30,7 @@ PythonToBlocks.prototype.convertSourceToCodeBlock = function(python_source) {
 PythonToBlocks.prototype.convertSource = function(python_source) {
     var xml = document.createElement("xml");
     if (python_source.trim() === "") {
+        console.log("TEXTBOX VUOTA"); //entra solo se la textbox è vuota
         return {"xml": xmlToString(xml), "error": null};
     }
     this.source = python_source.split("\n");
@@ -39,6 +40,7 @@ PythonToBlocks.prototype.convertSource = function(python_source) {
     try {
         parse = Sk.parse(filename, python_source);
         ast = Sk.astFromParse(parse.cst, filename, parse.flags);
+        console.log('parse=', parse,'ast=', ast);
         //symbol_table = Sk.symboltable(ast, filename, python_source, filename, parse.flags);
     } catch (e) {
         error = e;
@@ -47,6 +49,7 @@ PythonToBlocks.prototype.convertSource = function(python_source) {
     }
     this.comments = {};
     for (var commentLocation in parse.comments) {
+        //console.log("COMMENTIIIIII");
         var lineColumn = commentLocation.split(",");
         var yLocation = parseInt(lineColumn[0], 10);
         this.comments[yLocation] = parse.comments[commentLocation];
@@ -56,12 +59,18 @@ PythonToBlocks.prototype.convertSource = function(python_source) {
     this.nextExpectedLine = 0;
     this.measureNode(ast);
     var converted = this.convert(ast);
+    console.log("converted: ", converted);
     if (converted !== null) {
         for (var block = 0; block < converted.length; block+= 1) {
             xml.appendChild(converted[block]);
         }
     }
+    console.log(xmlToString(xml));
+
+    //xml2 = '<xml xmlns="http://www.w3.org/1999/xhtml">   <variables>     <variable type="" id="zirs/Yc0$r,ra;auwei.">kù</variable>   </variables>   <block type="text_print" id="{`@a~~grF#IM3_yn/ROy" x="37" y="38">     <value name="TEXT">       <shadow type="text" id="dYEm!^eE$6FKL`,S[6_P">         <field name="TEXT">abc</field>       </shadow>     </value>   </block>   <block type="variables_set" id="`t:{W$%lj4]0]Cwr.{91" x="38" y="88">     <field name="VAR" id="zirs/Yc0$r,ra;auwei." variabletype="">kù</field>     <value name="VALUE">       <block type="logic_boolean" id="XBZv2h9KP!qaBJByQO*k">         <field name="BOOL">TRUE</field>       </block>     </value>   </block>   <block type="controls_if" id="Lu^Ob,w#tms4EQ`MLpyt" x="38" y="163">     <value name="IF0">       <block type="variables_get" id="j{{oN=m0%vJoq=wW92Yy">         <field name="VAR" id="zirs/Yc0$r,ra;auwei." variabletype="">kù</field>       </block>     </value>     <statement name="DO0">       <block type="text_print" id="N#St0i~i{:~kB;0eJi,c">         <value name="TEXT">           <shadow type="text" id="#UrICZF%u-.NszbqV6Yj">             <field name="TEXT">ciao</field>           </shadow>         </value>       </block>     </statement>   </block> </xml>';
+    //xml2 = '<xml xmlns="http://www.w3.org/1999/xhtml">  <block type="controls_whileUntil" x="7" y="60">         <field name="MODE">WHILE</field>        <value name="BOOL">             <block type="logic_boolean">                <field name="BOOL">TRUE</field>             </block>        </value>        <statement name="DO">           <block type="text_print">               <value name="TEXT">                     <block type="coderbot_adv_findText">                        <field name="ACCEPT">alpha</field>                      <value name="COLOR">                            <block type="text">                                 <field name="TEXT">#a81300</field>                          </block>                        </value>                    </block>                </value>            </block>        </statement>    </block> </xml>';
     return {"xml": xmlToString(xml), "error": null, "lineMap": this.lineMap, 'comment': this.comments};
+    //return {"xml": xml2, "error": null, "lineMap": this.lineMap, 'comment': this.comments};
 }
 
 PythonToBlocks.prototype.identifier = function(node) {
@@ -217,6 +226,9 @@ PythonToBlocks.prototype.convertBody = function(node, is_top_level) {
         // Now convert the actual node
         var height = this.heights.shift();
         var originalSourceCode = this.getSourceCode(lineNumberInProgram, height);
+        console.log('node[i]: ', node[i]);
+        console.log('originalSourceCode: ', originalSourceCode);
+        console.log('is_top_level: ', is_top_level);
         var newChild = this.convertStatement(node[i], originalSourceCode, is_top_level);
         
         // Skip null blocks (e.g., imports)
@@ -371,6 +383,8 @@ raw_expression = function(txt, lineno) {
 }
 
 PythonToBlocks.prototype.convert = function(node, is_top_level) {
+    console.log('node._astname',node._astname);//DEBUG
+    console.log('PROVAAAAAAAA: ',this[node._astname](node, is_top_level));//DEBUG
     return this[node._astname](node, is_top_level);
 }
 
@@ -838,6 +852,7 @@ PythonToBlocks.prototype.Expr = function(node, is_top_level) {
     
     var converted = this.convert(value);
     if (converted.constructor == Array) {
+
         return converted[0];
     } else if (is_top_level === true) {
         return [this.convert(value)];
@@ -1201,11 +1216,16 @@ PythonToBlocks.KNOWN_MODULES = {
     }
 };
 PythonToBlocks.prototype.KNOWN_FUNCTIONS = ["append", "strip", "rstrip", "lstrip"];
+PythonToBlocks.prototype.KNOWN_FUNCTIONS_CODERBOT = ["get_audio", "sleep", "say", "forward", "backward", "left", "right", "move", "turn", "motor_control", "stop", "photo_take", "video_rec", "video_stop", "path_ahead", "find_line", "find_signal", "find_text", "find_qr_code", "find_logo", "find_class", "cnn_classify"];
 PythonToBlocks.KNOWN_ATTR_FUNCTIONS = {};
 PythonToBlocks.prototype.CallAttribute = function(func, args, keywords, starargs, kwargs, node) {
     var name = this.identifier(func.attr);
+    console.log("VVVVVVVVVVVVVV");
+    console.log('name: ', name);
+    console.log('func.value._astname: ', func.value._astname);
     if (func.value._astname == "Name") {
         var module = this.identifier(func.value.id);
+        console.log('module: ', module);
         if (module == "plt" && name == "plot") {
             if (args.length == 1) {
                 return [block("plot_line", func.lineno, {}, {
@@ -1305,9 +1325,112 @@ PythonToBlocks.prototype.CallAttribute = function(func, args, keywords, starargs
                     { "TEXT": this.convert(func.value) });
             default: throw new Error("Unknown function call!");
         }
-    } else if (name in PythonToBlocks.KNOWN_ATTR_FUNCTIONS) {
+
+    //SE NON COMMENTO QUESTO IL BLOCCO move.forward() ENTRA QUA E NON SO PERCHE'
+    /*} else if (name in PythonToBlocks.KNOWN_ATTR_FUNCTIONS) {
         return PythonToBlocks.KNOWN_ATTR_FUNCTIONS[name].bind(this)(func, args, keywords, starargs, kwargs, node)
-    } else {
+    */
+    ///AGGIUNTO IO///
+    }else if(this.KNOWN_FUNCTIONS_CODERBOT.indexOf(name) > -1) {
+        var name = this.identifier(func.attr);
+        console.log("CCCCCCCCCCC");
+        console.log('name: ', name);
+        console.log('func.value._astname: ', func.value._astname);
+        if (func.value._astname == "Call") {
+            //var module = this.identifier(func.value.id);
+            //console.log('func.value.id: ', func.value.id);
+            //VERIFICARE CHE MODULE E' UGUALE A Commands
+            //if (module == "plt" && name == "plot") {
+            if (name == "sleep") {
+                if (args.length == 1) {
+                    return [block("coderbot_sleep", func.lineno, {}, {"ELAPSE": this.convert(args[0])})]; //non so se NUM va bene o devo assegnarlo a delle variabili. ATTENZIONE: SECONDO ME '' MESSI DI DEFAULT NON VANNO BENE. ALTRIMENTI DA ERRORE SE NON VIENE INSERITO UN VALORE
+                } else {
+                    throw new Error("Incorrect number of arguments to sleep()");
+                }
+            }else if(name == "say") {
+                if (args.length == 1) {
+                    return [block("coderbot_audio_say", func.lineno, {"LOCALE": keywords[0].value.s.v}, {"TEXT": this.convert(args[0])}, {})]; //in teoria le keyword sono giuste ma non funzionano, la parte text sembra funzionare bene
+                /*}else if (args.length == 2) {
+                    console.log("ciaoooo");
+                    return [block("coderbot_audio_say", func.lineno)];*/
+                } else {
+                    throw new Error("Incorrect number of arguments to say()");
+                }
+            }else if(name == "forward" || name == "backward" || name == "left" || name == "right") {
+                if (args.length == 0 && keywords.length ==2) {
+                    return [block("coderbot_adv_move", func.lineno, {"ACTION": name}, {"SPEED": this.convert(keywords[0].value), "ELAPSE": this.convert(keywords[1].value)})];
+                } else {
+                    throw new Error("Incorrect number of arguments to forward()");
+                }
+            }else if(name == "move") {
+                if (args.length == 0 && keywords.length ==1) {
+                    return [block("coderbot_motion_move", func.lineno, {}, {"DIST": this.convert(keywords[0].value)})];
+                } else {
+                    throw new Error("Incorrect number of arguments to move()");
+                }
+            }else if(name == "turn") {
+                if (args.length == 0 && keywords.length ==1) {
+                    return [block("coderbot_motion_turn", func.lineno, {}, {"ANGLE": this.convert(keywords[0].value)})];
+                } else {
+                    throw new Error("Incorrect number of arguments to turn()");
+                }
+            }else if(name == "motor_control") {
+                if (args.length == 0 && keywords.length ==5) {
+                    return [block("coderbot_adv_motor", func.lineno, {}, {"SPEED_LEFT": this.convert(keywords[0].value), "SPEED_RIGHT": this.convert(keywords[1].value), "ELAPSE": this.convert(keywords[2].value), "STEPS_LEFT": this.convert(keywords[3].value), "STEPS_RIGHT": this.convert(keywords[4].value)})];
+                } else {
+                    throw new Error("Incorrect number of arguments to motor_control()");
+                }
+            }else if(name == "stop") {
+                return [block("coderbot_adv_stop", func.lineno, {})];
+
+            }else if(name == "photo_take") {
+                return [block("coderbot_camera_photoTake", func.lineno, {})];
+
+            }else if(name == "video_rec") {
+                return [block("coderbot_camera_videoRec", func.lineno, {})];
+
+            }else if(name == "video_stop") {
+                return [block("coderbot_camera_videoStop", func.lineno, {})];
+
+            }else if(name == "path_ahead") {
+                return [block("coderbot_adv_pathAhead", func.lineno, {})];
+
+            }else if(name == "find_line") {
+                return [block("coderbot_adv_findLine", func.lineno, {})];
+
+            }else if(name == "find_signal") {
+                return [block("coderbot_adv_findSignal", func.lineno, {})];
+
+            }else if(name == "find_text") {
+                if (args.length == 0 && keywords.length ==2) {
+                    return [block("coderbot_adv_findText", func.lineno, {"ACCEPT": keywords[0].value.s.v}, {"COLOR": this.convert(keywords[1].value), "ELAPSE": this.convert(keywords[1].value)})];
+                } else {
+                    throw new Error("Incorrect number of arguments to forward()");
+                }
+            }else if(name == "find_qr_code") {
+                return [block("coderbot_adv_findQRCode", func.lineno, {})];
+
+            }else if(name == "find_logo") {
+                return [block("coderbot_adv_findLogo", func.lineno, {})];
+
+            }else if(name == "find_class") {
+                return [block("coderbot_adv_find_class", func.lineno, {})];
+
+            }else if(name == "cnn_classify") {
+                return [block("coderbot_adv_cnn_classify", func.lineno, {})];
+
+            }/*NON FUNZIONA (RICORDA DI METTERE IL NAME NELLA LISTA SE VUOI PROVARE)
+            else if(name == "register_event_generator") {
+                return [block("coderbot_event_generator", func.lineno, {}, {}, {}, {}, {"generator_statements": args[0]})];
+
+            }*/ 
+
+        }
+
+    ///FINE AGGIUNTO IO////
+    }else {
+        //console.log('name func: ', name);
+        //console.log("ENTRA NELL'ELSE");
         heights = this.getChunkHeights(node);
         extractedSource = this.getSourceCode(arrayMin(heights), arrayMax(heights));
         var col_endoffset = node.col_endoffset;
@@ -1357,6 +1480,15 @@ PythonToBlocks.prototype.Call = function(node) {
     var keywords = node.keywords;
     var starargs = node.starargs;
     var kwargs = node.kwargs;
+
+    console.log("nodeCall:", node);
+    //console.log("Keywords: ", keywords);
+    //console.log("Keywords[0]: ", keywords[0]);
+    //console.log("Keywords[0].value: ", keywords[0].value);
+    //console.log("Keywords[0].value.s: ", keywords[0].value.s);
+    //console.log("Keywords[0].value.s.v: ", keywords[0].value.s.v);
+
+
     
     switch (func._astname) {
         case "Name":
@@ -1396,6 +1528,7 @@ PythonToBlocks.prototype.Call = function(node) {
                         {"@name": "xrange",
                          "": this.convert(args[0])})
                 default:
+                    console.log("PRIMOOOO");
                     if (starargs !== null && starargs.length > 0) {
                         throw new Error("*args (variable arguments) are not implemented yet.");
                     } else if (kwargs !== null && kwargs.length > 0) {

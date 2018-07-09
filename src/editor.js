@@ -220,7 +220,6 @@ BlockPyEditor.prototype.updateBlocksFromModel = function() {
  *
  * @returns {XMLDom} The blocks in the current workspace.
  */
- //DEBUG FORSE SERVE PER IL SALVATAGGIO
 BlockPyEditor.prototype.getBlocksFromXml = function() {
     //alert("getBlocksFromXml");
     return Blockly.Xml.workspaceToDom(this.blockly);
@@ -340,6 +339,46 @@ BlockPyEditor.CATEGORY_MAP = {
                         '</value>'+
                     '</block>'+
                 '</category>',
+    'My Block' : '<category name="My block" colour="0">'+
+                    '<block type="coderbot_repeat"></block>'+
+                    '<block type="coderbot_moveForward"></block>'+
+                    '<block type="coderbot_moveBackward"></block>'+
+                    '<block type="coderbot_turnLeft"></block>'+
+                    '<block type="coderbot_turnRight"></block>'+
+                    '<block type="coderbot_audio_say"></block>'+
+                    '<block type="coderbot_sleep"></block>'+
+                    '<block type="coderbot_adv_move"></block>'+
+                    '<block type="coderbot_motion_move"></block>'+
+                    '<block type="coderbot_motion_turn"></block>'+
+                    '<block type="coderbot_adv_motor"></block>'+
+                    '<block type="coderbot_adv_stop"></block>'+
+                    '<block type="coderbot_camera_photoTake"></block>'+
+                    '<block type="coderbot_camera_videoRec"></block>'+
+                    '<block type="coderbot_camera_videoStop"></block>'+
+                    '<block type="coderbot_adv_pathAhead"></block>'+
+                    '<block type="coderbot_adv_findLine"></block>'+
+                    '<block type="coderbot_adv_findSignal"></block>'+
+                    '<block type="coderbot_adv_findFace"></block>'+
+                    '<block type="coderbot_adv_findColor"></block>'+
+                    '<block type="coderbot_cam_average"></block>'+
+                    '<block type="coderbot_adv_findText"></block>'+
+                    '<block type="coderbot_adv_findQRCode"></block>'+
+                    '<block type="coderbot_adv_findARCode"></block>'+
+                    '<block type="coderbot_adv_findLogo"></block>'+
+                    '<block type="coderbot_adv_find_class"></block>'+
+                    '<block type="coderbot_adv_cnn_classify"></block>'+
+                    '<block type="coderbot_event_generator"></block>'+
+                    '<block type="coderbot_event_listener"></block>'+
+                    '<block type="coderbot_event_publisher"></block>'+
+                    '<block type="hashmap_get_value"></block>'+
+                    '<block type="hashmap_get_keys"></block>'+
+                    '<block type="coderbot_conv_get_action"></block>'+
+                    '<block type="coderbot_audio_record"></block>'+
+                    '<block type="coderbot_audio_play"></block>'+
+                    '<block type="coderbot_audio_hear"></block>'+
+                    '<block type="coderbot_audio_listen"></block>'+
+                    '<block type="coderbot_sonar_get_distance"></block>'+
+                '</category>',
     'Separator': '<sep></sep>'
 };
 
@@ -358,7 +397,7 @@ BlockPyEditor.prototype.updateToolbox = function(only_set) {
                     'Iteration',
                     'Calculation', 'Output', 
                     'Values', 
-                    'Lists', 'Dictionaries'];
+                    'Lists', 'Dictionaries', 'My Block'];
     var started_misc = false,
         started_values = false,
         started_data = false;
@@ -368,7 +407,7 @@ BlockPyEditor.prototype.updateToolbox = function(only_set) {
             started_misc = true;
             xml += BlockPyEditor.CATEGORY_MAP['Separator'];
         }
-        if (!started_values && ['Values', 'Lists', 'Dictionaries'].indexOf(module) != -1) {
+        if (!started_values && ['Values', 'Lists', 'Dictionaries', 'My Block'].indexOf(module) != -1) {
             started_values = true;
             xml += BlockPyEditor.CATEGORY_MAP['Separator'];
         }

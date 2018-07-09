@@ -14,6 +14,8 @@ Blockly.Xml.domToWorkspaceDestructive = function(xml, workspace, errorXml) {
                  'swap the arguments.');
   }
   var width;  // Not used in LTR.
+  console.log(workspace);
+  console.log(xml);
   if (workspace.RTL) {
     width = workspace.getWidth();
   }
@@ -46,6 +48,8 @@ Blockly.Xml.domToWorkspaceDestructive = function(xml, workspace, errorXml) {
       // that means an undo is in progress.  Such a block is expected
       // to be moved to a nested destination in the next operation.
       var block = Blockly.Xml.domToBlock(xmlChild, workspace);
+      //console.log(block);
+      //console.log("CIAOOOOOOOOOOOOO")
       var blockX = parseInt(xmlChild.getAttribute('x'), 10);
       var blockY = parseInt(xmlChild.getAttribute('y'), 10);
       if (!isNaN(blockX) && !isNaN(blockY)) {
