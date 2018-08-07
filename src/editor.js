@@ -24,6 +24,7 @@ function BlockPyEditor() {
     this.silenceBlock = false;
     this.silenceBlockTimer = null;
     this.silenceText = false;
+    this.oldCode = ""; //DA ELIMINARE
     
     // Hack to prevent chrome errors. Forces audio to load on demand. 
     // See: https://github.com/google/blockly/issues/299
@@ -163,6 +164,7 @@ BlockPyEditor.prototype.updateText = function() {
     //alert("updateText");
     if (! this.silenceText) {
         var newCode = $('.codemirror-div').val();
+
         // Update Blocks
         this.silenceBlock = true;
         this.setBlocks(newCode);

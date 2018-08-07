@@ -1,5 +1,3 @@
-//DEVO ANCORA CAPIRE BENE COME FUNZIONA MA SE NON LO INSERISCO NON FUNZIONA
-
 /**
  * Decode an XML DOM and create blocks on the workspace, clearing out old blocks.
  * @param {!Element} xml XML DOM.
@@ -14,8 +12,8 @@ Blockly.Xml.domToWorkspaceDestructive = function(xml, workspace, errorXml) {
                  'swap the arguments.');
   }
   var width;  // Not used in LTR.
-  console.log(workspace);
-  console.log(xml);
+  //console.log("imported, workspace: ", workspace); //CONTROLLOPROVA
+  //console.log("imported, xml: ", xml); //CONTROLLOPROVA
   if (workspace.RTL) {
     width = workspace.getWidth();
   }

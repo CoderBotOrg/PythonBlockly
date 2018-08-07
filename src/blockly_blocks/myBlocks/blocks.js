@@ -16,6 +16,7 @@
   */
 
 //HO DOVUTO COMMENTARE DELLE PARTI CHE UTILIZZANO DELLE VARIABILI CONTENUTE IN config_params.html PERCHE' ALTRIMENTI NON FUNZIONA. NON SONO ANCORA RIUSCITO AD INSERIRE QUEI COMANDI
+//HO AGGIUNTO LA CARTELLA images MA LE IMMAGINI NON FUNZIONANO
 
 'use strict';
 
@@ -34,7 +35,7 @@ Blockly.Blocks['coderbot_repeat'] = {
     this.setColour(120);
     var di = this.appendDummyInput();
     /*if(CODERBOT_PROG_LEVEL.indexOf("basic")>=0) {
-    	di.appendField(new Blockly.FieldImage('/images/blocks/loop_repeat.png', 32, 32, '*'));
+    	di.appendField(new Blockly.FieldImage('/images/blocks/loop_repeat.png', 32, 32, '*')); //SE METTO TUTTO IL PATH FUNZIONA
     } else {*/
         di.appendField(Blockly.Msg.CONTROLS_REPEAT_TITLE_REPEAT)
     //}
@@ -95,10 +96,10 @@ Blockly.Python['coderbot_moveForward'] = function(block) {
   // Generate Python for moving forward.
   //return 'Commands.get_motion().move(dist=___)\n';
   if(CODERBOT_PROG_MOVE_MOTION) {
-    return 'Commands.get_motion().move(dist=' + CODERBOT_MOV_FW_DEF_ELAPSE + ')\n';
+    return 'Commands.get_motion().move(dist=' + CODERBOT_MOV_FW_DEF_ELAPSE + ')\n'; 
 
   } else {
-    return 'Commands.get_bot().forward(speed=' + CODERBOT_MOV_FW_DEF_SPEED + ', elapse=' + CODERBOT_MOV_FW_DEF_ELAPSE + ')\n';
+    return 'Commands.get_bot().forward(speed=' + CODERBOT_MOV_FW_DEF_SPEED + ', elapse=' + CODERBOT_MOV_FW_DEF_ELAPSE + ')\n'; 
   }
 };
 

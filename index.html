@@ -6,7 +6,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
-    <!-- Blockly --> <!--robe di blockly-->
+    <!-- Blockly -->
     <script type="text/javascript" src="blockly/blockly_uncompressed.js"></script>
     <script type="text/javascript" src="blockly/blocks_compressed.js"></script>
     <script type="text/javascript" src="blockly/python_compressed.js"></script>
@@ -14,7 +14,7 @@
     <script type="text/javascript" src="blockly/javascript_compressed.js"></script>
     <script type="text/javascript" src="blockly/msg/js/en.js"></script>
     
-    <!-- Skulpt --> <!--implementazione javascript di python-->
+    <!-- Skulpt -->
     <script type="text/javascript" src="skulpt/dist/skulpt.min.js"></script>
     <script type="text/javascript" src="skulpt/dist/skulpt-stdlib.js"></script>
     <!--DEVO IMPORTARE SKULPT PERCHE' FA IL PARSER DEL CODICE PYTHON E PERMETTE LA CONVERSIONE IN XML. SENZA SKULPT SONO TUTTI RAW_BLOCK
@@ -24,7 +24,6 @@
     MODIFICATO ENV E TYPE!!!!! SPOSTARE LA DICHIARAZIONE DI Sk.builtin-->
     
     <!-- Source Code -->
-
     <script type="text/javascript" src="src/python_errors.js"></script>
     <script type="text/javascript" src="src/python_to_blockly.js"></script>
     <script type="text/javascript" src="src/imported.js"></script>
@@ -43,11 +42,16 @@
     <script type="text/javascript" src="src/blockly_blocks/turtles.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/text.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/plots.js"></script>
+
     <!--AGGIUNTO DA ME-->
-    <!--config_params.html dovrebbe aggiungere i comandi del coderbot ma non riesco a inserirlo-->
+    <script type="text/javascript" src="src/blockly_blocks/myBlocks/config_params.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/myBlocks/blocks.js"></script>
     <!--<script type="text/javascript" src="src/blockly_blocks/aggiunti/blocks_compressed.js"></script>-->
     <script type="text/javascript" src="src/blockly_blocks/myBlocks/bot_en.js"></script>
+
+    <!-- c'è già quello di blockly, non so se è necessario aggiungerlo-->
+    <script type="text/javascript" src="src/blockly_blocks/myBlocks/en.js"></script>
+
     <!--<script type="text/javascript" src="src/blockly_blocks/myBlocks/bot_fr.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/myBlocks/en.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/myBlocks/fr.js"></script>-->
